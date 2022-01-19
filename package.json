@@ -1,0 +1,31 @@
+{
+  "name": "telegram-bot-simisimi",
+  "version": "1.0.0",
+  "description": "Simple telegram bot using SimiSimi API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "termux-telegram-bot",
+    "telegram-bot",
+    "telegram",
+    "js-telegram"
+  ],
+  "homepage": "https://github.com/fikiismyname/telegram-bot-simisimi",
+  "author": {
+    "name": "fikiismyname"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fikiismyname/telegram-bot-simisimi.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fikiismyname/telegram-bot-simisimi/issues"
+  },
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "axios": "^0.25.0",
+    "node-telegram-bot-api": "^0.56.0"
+  }
+}

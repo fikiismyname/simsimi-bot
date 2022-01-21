@@ -26,6 +26,7 @@
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "axios": "^0.25.0",
+    "moment-timezone": "^0.5.34",
     "node-telegram-bot-api": "^0.56.0"
   }
 }

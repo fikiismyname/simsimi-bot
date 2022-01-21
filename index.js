@@ -1,50 +1,106 @@
 process.env["NTBA_FIX_319"] = 1;
 
+/**
+ * Node.js Telegram Bot API
+ * https://github.com/yagop/node-telegram-bot-api
+ */
 const TelegramBot = require("node-telegram-bot-api");
+
+/**
+ * Configuration file
+ */
 const config = require("./config.js");
+
+/**
+ * Promise based HTTP client for the browser and node.js
+ * https://github.com/axios/axios
+ */
 const axios = require("axios");
 
-// replace the value below with the Telegram token you receive from @BotFather
+/**
+ * Moment Timezone
+ * https://github.com/moment/moment-timezone
+ */
+const moment = require("moment-timezone");
+moment.tz.setDefault("Asia/Jakarta").locale("id");
+
+/**
+ * For setting this token open the config.js file
+ */
 const token = config.TOKEN;
 
-// Create a bot that uses 'polling' to fetch new updates
+/**
+ * Create a bot that uses 'polling' to fetch new updates
+ */
 const bot = new TelegramBot(token, { polling: true });
 
-let date = new Date();
-sendDate = date.toLocaleString("id-ID", {
-  weekday: "long", // long, short, narrow
-  day: "numeric", // numeric, 2-digit
-  year: "numeric", // numeric, 2-digit
-  month: "long", // numeric, 2-digit, long, short, narrow
-  hour: "numeric", // numeric, 2-digit
-  minute: "numeric", // numeric, 2-digit
-  second: "numeric", // numeric, 2-digit
-});
-
-// Listen for any kind of message. There are different kinds of
-// messages.
+/**
+ * Listen for any kind of message. There are different kinds of
+ * messages.
+ */
 bot.on("message", (msg) => {
+  /**
+   * Retrieving Message ID
+   */
   const chatId = msg.chat.id;
+
+  /**
+   * Retrieve incoming messages
+   */
   const pesanMasuk = msg.text;
+
+  /**
+   * Take a name
+   */
   const firstName = msg.from.first_name;
+
+  /**
+   * Retrieve the user's username
+   */
   const username = msg.from.username;
 
+  /**
+   * Retrieve the date when the user sent the message
+   */
+  const chatDate = moment(msg.date * 1000).format("DD/MM/YY HH:mm:ss");
+
+  /**
+   * Fetching data from SimSimi API
+   */
   axios({
     url: `https://api-sv2.simsimi.net/v2/?text=${pesanMasuk}&lc=id&cf=true`,
     method: "GET",
   })
     .then((resp) => {
       resp.data.messages.map((el) => {
+        /**
+         * Display data from api
+         */
         const pesanTerkirim = el.text;
-        const aktivitasPesan = `PENGGUNA: ${firstName}\nUSERNAME: @${username}\n\nPESAN MASUK: ${pesanMasuk}\nPESAN TERKIRIM: ${pesanTerkirim}\n\nTANGGAL: ${sendDate}`;
+
+        /**
+         * Sending messages to users
+         */
         bot.sendMessage(
           chatId,
-          pesanTerkirim.replace(/SimiSimi/g, "Fiki Si Paling Ganteng")
+          pesanTerkirim
+            .replace(/SimiSimi/g, "Fiki")
+            .replace(/Aku cewe/g, "Aku cowok")
         );
-        bot.sendMessage(config.USER_ID, aktivitasPesan);
+
+        /**
+         * Retrieve activity log
+         */
+        console.log(
+          `\n--------------------\nID: ${msg.from.id}\nNAME: ${msg.from.first_name}\nUSERNAME: ${msg.from.username}\n\nCHAT: ${msg.text}\nREPLY: ${pesanTerkirim}\nDATE: ${chatDate}\n--------------------\n`
+        );
       });
     })
+
+    /**
+     * Display error message and send to user
+     */
     .catch(function (error) {
-      bot.sendMessage(chatId, "BOTNya mungkin sedang error");
+      bot.sendMessage(chatId, "BOT Sedang Maintence");
     });
 });

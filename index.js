@@ -84,8 +84,7 @@ bot.on("message", (msg) => {
         bot.sendMessage(
           chatId,
           pesanTerkirim
-            .replace(/SimiSimi|simisimi/g, "Fiki")
-            .replace(/Aku cewe/g, "Aku cowok")
+		.replace(/simi(?!\w)/g, "fiki")
         );
 
         /**

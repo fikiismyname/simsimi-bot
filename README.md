@@ -1,6 +1,6 @@
 # What is this bot about?
 
-Telegram bot for chat based on Node JS using API SimiSimi by [Me](https://github.com/fikiismyname)
+Telegram bot for chat based on Node JS using API SimSimi by [Me](https://github.com/fikiismyname)
 
 ![SimiSimi image](https://simsimi.com/_nuxt/img/simsimi_image.4de3919.png)
 
@@ -11,8 +11,8 @@ Telegram bot for chat based on Node JS using API SimiSimi by [Me](https://github
 - Clone this repo :
 
 ```git
-git clone https://github.com/fikiismyname/telegram-bot-simisimi.git
-cd telegram-bot-simisimi
+git clone https://github.com/fikiismyname/telegram-bot-simsimi.git
+cd telegram-bot-simsimi
 ```
 
 > Make sure NodeJS and npm is installed

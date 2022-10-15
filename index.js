@@ -9,7 +9,7 @@ const TelegramBot = require("node-telegram-bot-api");
 /**
  * Configuration file
  */
-const config = require("./config.js");
+const config = require("dotenv").config();
 
 /**
  * Promise based HTTP client for the browser and node.js
@@ -22,17 +22,12 @@ const axios = require("axios");
  * https://github.com/moment/moment-timezone
  */
 const moment = require("moment-timezone");
-moment.tz.setDefault("Asia/Jakarta").locale("id");
-
-/**
- * For setting this token open the config.js file
- */
-const token = config.TOKEN;
+moment.tz.setDefault(process.env.BOT_TIMEZONE).locale(process.env.BOT_LANG);
 
 /**
  * Create a bot that uses 'polling' to fetch new updates
  */
-const bot = new TelegramBot(token, { polling: true });
+const bot = new TelegramBot(process.env.BOT_TOKEN, { polling: true });
 
 /**
  * Listen for any kind of message. There are different kinds of
@@ -68,7 +63,7 @@ bot.on("message", (msg) => {
    * Fetching data from SimSimi API
    */
   axios({
-    url: `https://api-sv2.simsimi.net/v2/?text=${pesanMasuk}&lc=id&cf=true`,
+    url: `${process.env.API_URL}?text=${pesanMasuk}&lc=${process.env.BOT_LANG}&cf=true`,
     method: "GET",
   })
     .then((resp) => {
@@ -81,11 +76,7 @@ bot.on("message", (msg) => {
         /**
          * Sending messages to users
          */
-        bot.sendMessage(
-          chatId,
-          pesanTerkirim
-		.replace(/simi(?!\w)/g, "fiki")
-        );
+        bot.sendMessage(chatId, pesanTerkirim.replace(/simi(?!\w)/g, "fiki"));
 
         /**
          * Retrieve activity log

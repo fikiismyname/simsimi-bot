@@ -1,10 +1,15 @@
 {
-  "name": "telegram-bot-simisimi",
-  "version": "1.0.0",
+  "name": "simsimi-bot",
   "description": "Simple telegram bot using SimiSimi API",
+  "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "test": "nodemon --trace-warnings index.js",
     "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fikiismyname/simsimi-bot.git"
   },
   "keywords": [
     "termux-telegram-bot",
@@ -12,21 +17,16 @@
     "telegram",
     "js-telegram"
   ],
-  "homepage": "https://github.com/fikiismyname/telegram-bot-simisimi",
-  "author": {
-    "name": "fikiismyname"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/fikiismyname/telegram-bot-simisimi.git"
-  },
+  "author": "Fiki Fadilah Putra",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/fikiismyname/telegram-bot-simisimi/issues"
+    "url": "https://github.com/fikiismyname/simsimi-bot/issues"
   },
-  "license": "Apache-2.0",
+  "homepage": "https://github.com/fikiismyname/simsimi-bot#readme",
   "dependencies": {
-    "axios": "^0.26.0",
-    "moment-timezone": "^0.5.34",
-    "node-telegram-bot-api": "^0.56.0"
+    "axios": "^1.1.2",
+    "dotenv": "^16.0.3",
+    "moment-timezone": "^0.5.37",
+    "node-telegram-bot-api": "^0.59.0"
   }
 }

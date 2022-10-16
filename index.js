@@ -1,15 +1,15 @@
 process.env["NTBA_FIX_319"] = 1;
 
 /**
+ * Import configuration from .env
+ */
+ require("dotenv").config();
+
+/**
  * Node.js Telegram Bot API
  * https://github.com/yagop/node-telegram-bot-api
  */
 const TelegramBot = require("node-telegram-bot-api");
-
-/**
- * Configuration file
- */
-const config = require("dotenv").config();
 
 /**
  * Promise based HTTP client for the browser and node.js
@@ -45,9 +45,9 @@ bot.on("message", (msg) => {
   const pesanMasuk = msg.text;
 
   /**
-   * Take a name
+   * Retrieve the user's full name (first name + last name)
    */
-  const firstName = msg.from.first_name;
+  const fullName = `${msg.from.first_name}${msg.from.last_name ? ` ${msg.from.last_name}` : ""}`;
 
   /**
    * Retrieve the user's username
@@ -67,30 +67,41 @@ bot.on("message", (msg) => {
     method: "GET",
   })
     .then((resp) => {
-      resp.data.messages.map((el) => {
+      for (const el of resp.data.messages) {
         /**
          * Display data from api
          */
-        const pesanTerkirim = el.text;
+        const pesanTerkirim = el.text.replace(/simi(?!\w)/g, "fiki");
 
         /**
          * Sending messages to users
          */
-        bot.sendMessage(chatId, pesanTerkirim.replace(/simi(?!\w)/g, "fiki"));
+        bot.sendMessage(chatId, pesanTerkirim);
 
         /**
          * Retrieve activity log
          */
         console.log(
-          `\n--------------------\nID: ${msg.from.id}\nNAME: ${msg.from.first_name}\nUSERNAME: ${msg.from.username}\n\nCHAT: ${msg.text}\nREPLY: ${pesanTerkirim}\nDATE: ${chatDate}\n--------------------\n`
+          `
+--------------------
+ID: ${msg.from.id}
+NAME: ${fullName}
+USERNAME: ${username}
+         
+CHAT: ${pesanMasuk}
+REPLY: ${pesanTerkirim}
+DATE: ${chatDate}
+--------------------
+          `
         );
-      });
+      }
     })
 
     /**
-     * Display error message and send to user
+     * Log error and send an error message to user
      */
-    .catch(function (error) {
-      bot.sendMessage(chatId, "BOT Sedang Maintence");
+    .catch((error) => {
+      console.error(error);
+      bot.sendMessage(chatId, "Oops! Sepertinya terjadi kesalahan, coba lagi nanti.");
     });
 });

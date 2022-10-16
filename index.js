@@ -3,7 +3,7 @@ process.env["NTBA_FIX_319"] = 1;
 /**
  * Import configuration from .env
  */
- require("dotenv").config();
+require("dotenv").config();
 
 /**
  * Node.js Telegram Bot API
